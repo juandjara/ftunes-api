@@ -30,9 +30,9 @@ module.exports = function(req, res, next){
   });
   proc.on('end', function(){
     endTime = Date.now();
-    var time = (endTime - initTime) * 1000;
+    var time = (endTime - initTime) / 1000;
     console.log('finished streaming file '+title+'.mp3 from url '+url);
-    console.log('Streaming took '+time.toFixed(2)+'s');
+    console.log('Streaming took '+time.toFixed(3)+'s');
   });
   
 }
