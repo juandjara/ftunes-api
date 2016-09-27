@@ -10,7 +10,9 @@ module.exports = function(req, res, next){
   }
 
   var url    = "https://youtube.com/watch?v="+id;
-  var stream = ytdl(url);
+  var stream = ytdl(url, {
+    filter: "audioonly"
+  });
 
   res.setHeader('Content-disposition', 'attachment; filename='+title+'.mp3');
   res.setHeader('Content-type', 'audio/mpeg');
@@ -21,8 +23,16 @@ module.exports = function(req, res, next){
     .output(res)
     .run();
 
+  var initialTime, endTime;
+  proc.on('start', function(){
+    initialTime = Date.now();
+    console.log('Start streaming file '+title+'.mp3 from url '+url);
+  });
   proc.on('end', function(){
+    endTime = Date.now();
+    var time = (endTime - initTime) * 1000;
     console.log('finished streaming file '+title+'.mp3 from url '+url);
+    console.log('Streaming took '+time.toFixed(2)+'s');
   });
   
 }
