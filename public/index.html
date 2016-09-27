@@ -50,8 +50,10 @@
       <input class="full-w" type="text" id="title"></input>
     </div>
     <br>
-    <button onclick="dl()" class="big-btn">Play!</button>
-    <audio id="target" controls hidden></audio>        
+    <div>
+      <button onclick="dl()" class="big-btn">Play!</button>
+      <audio id="target" controls hidden></audio>
+    </div>        
     <script type="text/javascript">
       function dl(){
         var ytid   = document.getElementById("ytid").value;
