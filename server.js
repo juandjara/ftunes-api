@@ -1,7 +1,8 @@
 var express = require('express');
 var app     = express();
 var cors    = require('cors');
-var yt_mp3  = require('./converter.js');
+var yt_mp3  = require('./converter');
+var search  = require('./search');
 
 app.set('json spaces', 2);
 app.use(cors());
@@ -14,6 +15,7 @@ app.get('/api', function(req, res){
               sample:'/dl/:yt_video_id/:titulo_de_la_descarga'});
 });
 app.get('/api/:ytid/:title', yt_mp3);
+app.get('/api/search', search);
 
 var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;
