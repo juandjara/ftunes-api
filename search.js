@@ -9,6 +9,7 @@ module.exports = function(req, res){
   };
   search(query, options, function(err, results){
     if(err){
+      console.error(err);
       return res.status(500).send(err);
     }
 
