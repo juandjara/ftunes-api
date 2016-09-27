@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Freetunes v2</title>
+    <meta name="description" content="musica de yuotube">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+      html, body{
+        margin: 0;
+        background-color: #eee;
+        font-family: sans-serif;
+        max-width: 30em;
+        margin: auto;
+      }
+      .text-center{
+        text-align: center;
+      }
+      header .subhead{
+        color: #888;
+        font-weight: 500;
+        font-size: 1.5em;
+      }
+      .full-w{
+        width: 100%;
+      }
+      .big-btn{
+        margin-right: 1em;
+        padding: 0.5em 1em;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <header class="text-center">
+      <h1>Freetunes v2</h1>
+      <p class="subhead">Musica de youtube</p>
+    </header>
+    <div>
+      <label>Youtube id</label>
+      <input class="full-w" type="text" id="ytid"></input>
+    </div>
+    <br>
+    <div>
+      <label>titulo de la descarga</label>
+      <input class="full-w" type="text" id="title"></input>
+    </div>
+    <br>
+    <button onclick="dl()" class="big-btn">Play!</button>
+    <audio id="target" controls hidden></audio>        
+    <script type="text/javascript">
+      function dl(){
+        var ytid   = document.getElementById("ytid").value;
+        var title  = document.getElementById("title").value;
+        var target = document.getElementById("target");
+
+        var url    = "/api/"+ytid+"/"+title;
+        target.src = url;
+        target.hidden = false;
+        target.play();
+      }
+    </script>
+  </body>
+</html>
