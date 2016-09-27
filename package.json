@@ -1,0 +1,27 @@
+{
+  "name": "ytdl-tomp3",
+  "version": "1.0.0",
+  "description": "api para bajarse musica. toma 2",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "music",
+    "musica",
+    "youtube",
+    "download",
+    "downloader",
+    "ffmpeg",
+    "converter"
+  ],
+  "author": "fuken",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "fluent-ffmpeg": "^2.1.0",
+    "ytdl-core": "^0.7.18"
+  }
+}
