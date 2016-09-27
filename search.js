@@ -1,13 +1,16 @@
 module.exports = function(req, res){
-  var search = require("youtube-search");
-  var env    = require("./env");
+  var YouTube = require("youtube-node");
+  var yt      = new YouTube();
+  var env     = require("./env");
+  var query   = req.query.q;
+  var rpp     = req.query.rpp || 5;
 
-  var query = req.query.q;
-  var options  = {
-    key: env.youtube,
-    maxResults: 10
-  };
-  search(query, options, function(err, results){
+  if(!query){
+    return res.status(400).send("Query param (q) is missing");
+  }
+
+  yt.setKey(env.youtube);
+  yt.search(query, rpp, function(err, results){
     if(err){
       console.error(err);
       return res.status(500).send(err);
