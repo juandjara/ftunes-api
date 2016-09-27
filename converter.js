@@ -23,7 +23,7 @@ module.exports = function(req, res, next){
     .output(res)
     .run();
 
-  var initialTime, endTime;
+  var initTime, endTime;
   proc.on('start', function(){
     initialTime = Date.now();
     console.log('Start streaming file '+title+'.mp3 from url '+url);
