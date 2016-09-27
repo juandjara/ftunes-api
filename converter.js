@@ -25,7 +25,7 @@ module.exports = function(req, res, next){
 
   var initTime, endTime;
   proc.on('start', function(){
-    initialTime = Date.now();
+    initTime = Date.now();
     console.log('Start streaming file '+title+'.mp3 from url '+url);
   });
   proc.on('end', function(){
