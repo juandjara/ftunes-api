@@ -1,15 +1,12 @@
 var express = require('express');
 var app     = express();
 var cors    = require('cors');
-var path    = require('path');
 var yt_mp3  = require('./converter.js');
 
 app.set('json spaces', 2);
 app.use(cors());
 
-app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname, "index.html"));
-});
+app.use(express.static('public'));
 
 app.get('/api', function(req, res){
     res.json({status: 'ok',
