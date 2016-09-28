@@ -1,6 +1,6 @@
 # Freetunes
 
-Freetunes busca y descarga musica en youtube.
+Freetunes busca y descarga musica de youtube.
 Contiene una API en JSON y un formulario simple para probar la descarga 
 
 ## Instalacion
