@@ -17,9 +17,15 @@ module.exports = function(req, res){
     }
 
     try{
-      res.json(results.items);
+      res.json(results.items.map(function(elem){
+        return {
+          id: elem.id.videoId,
+          etag: elem.etag,
+          data: elem.snippet
+        };
+      }));
     }catch(err){
-      res.status(500).send();
+      res.status(500).json({error: "error parsing youtube api"});
     }
   });
 }

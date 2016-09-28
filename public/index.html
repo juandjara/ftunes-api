@@ -30,6 +30,9 @@
         padding: 0.5em 1em;
         font-weight: bold;
       }
+      .layout{
+        display: flex;
+      }
     </style>
   </head>
   <body>
@@ -50,7 +53,7 @@
       <input class="full-w" type="text" id="title"></input>
     </div>
     <br>
-    <div>
+    <div class="layout">
       <button onclick="dl()" class="big-btn">Play!</button>
       <audio id="target" controls hidden></audio>
     </div>        
