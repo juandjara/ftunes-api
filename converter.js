@@ -7,7 +7,7 @@ module.exports = function(req, res, next){
   var isDownload = req.query.dl;
 
   if(!id || !title){
-    return res.status(400).send("Missing param ytid or title");
+    return res.status(400).json({error: "Missing param ytid or title"});
   }
 
   var url    = "https://youtube.com/watch?v="+id;

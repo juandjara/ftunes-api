@@ -6,7 +6,7 @@ module.exports = function(req, res){
   var rpp     = req.query.rpp || 5;
 
   if(!query){
-    return res.status(400).send("Query param (q) is missing");
+    return res.status(400).json({error: "Query param (q) is missing"});
   }
 
   yt.setKey(env.youtube);
