@@ -12,10 +12,14 @@ module.exports = function(req, res){
   yt.setKey(env.youtube);
   yt.search(query, rpp, function(err, results){
     if(err){
-      console.error(err);
+      console.error(err.error);
       return res.status(500).send(err);
     }
 
-    res.json(results);
+    try{
+      res.json(results.items);
+    }catch(err){
+      res.status(500).send();
+    }
   });
 }
