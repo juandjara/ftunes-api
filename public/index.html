@@ -49,11 +49,6 @@
       <input class="full-w" type="text" id="ytid"></input>
     </div>
     <br>
-    <div>
-      <label>titulo de la descarga</label>
-      <input class="full-w" type="text" id="title"></input>
-    </div>
-    <br>
     <div class="layout">
       <button onclick="dl()" class="big-btn">Play!</button>
       <audio id="target" controls hidden></audio>
@@ -61,10 +56,9 @@
     <script type="text/javascript">
       function dl(){
         var ytid   = document.getElementById("ytid").value;
-        var title  = document.getElementById("title").value;
         var target = document.getElementById("target");
 
-        var url    = "/api/"+ytid+"/"+title;
+        var url    = "/api/dl/"+ytid;
         target.src = url;
         target.hidden = false;
         target.play();

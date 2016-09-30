@@ -14,7 +14,7 @@ app.get('/api', function(req, res){
               description: 'convertir musica de yt a mp3',
               sample:'/dl/:yt_video_id/:titulo_de_la_descarga'});
 });
-app.get('/api/:ytid/:title', yt_mp3);
+app.get('/api/dl/:ytid', yt_mp3);
 app.get('/api/search', search);
 
 var server = app.listen(process.env.PORT || 3000, function () {

@@ -3,11 +3,11 @@ module.exports = function(req, res, next){
   var ffmpeg = require('fluent-ffmpeg');
 
   var id     = req.params.ytid;
-  var title  = req.params.title;
+  var title  = req.query.title || id;
   var isDownload = req.query.dl;
 
-  if(!id || !title){
-    return res.status(400).json({error: "Missing param ytid or title"});
+  if(!id){
+    return res.status(400).json({error: "Missing param ytid"});
   }
 
   var url    = "https://youtube.com/watch?v="+id;
@@ -18,12 +18,13 @@ module.exports = function(req, res, next){
   if(isDownload){
     res.setHeader('Content-disposition', 'attachment; filename='+title+'.mp3');
   }
-  res.setHeader('Content-type', 'audio/mpeg');
+  //res.setHeader('Content-type', 'audio/mpeg');
 
   stream.on('info', function(info){
     //res.setHeader('Content-Length', info.size);
     try{
-      convert(res, stream);      
+      stream.pipe(res);
+      //convert(res, stream);      
     }catch(err){
       return res.status(500).send(err);
     }
