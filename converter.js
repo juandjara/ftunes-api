@@ -21,8 +21,8 @@ module.exports = function(req, res, next){
   }
   //res.setHeader('Content-type', 'audio/mpeg');
 
-  stream.on('info', function(info){
-    //res.setHeader('Content-Length', info.size);
+  stream.on('response', function(data){
+    res.setHeader('Content-Length', data.headers["content-Length"]);
     try{
       if(isConvert){
 	      convert(res, stream);      
@@ -33,6 +33,10 @@ module.exports = function(req, res, next){
       return res.status(500).send(err);
     }
   })
+
+  setTimeout(function(){ // 20s timeout in case stream event does not happen
+    res.status(503).send();
+  }, 1000 * 20);
 
   function convert(res, stream){
     var proc = new ffmpeg({source: stream});

@@ -55,12 +55,12 @@
     <br>
     <div class="layout">
       <button onclick="dl()" class="big-btn">Play!</button>
-      <audio id="target" controls hidden></audio>
+      <audio preload="metadata" id="target" controls hidden></audio>
     </div>        
     <script type="text/javascript">
       function dl(){
         var ytid    = document.getElementById("ytid").value;
-	var convert = document.getElementById("convert").checked;
+	      var convert = document.getElementById("convert").checked || "";
         var target  = document.getElementById("target");
 
         var url    = "/api/dl/"+ytid+"?mp3convert="+convert;
