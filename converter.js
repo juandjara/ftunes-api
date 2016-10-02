@@ -5,6 +5,7 @@ module.exports = function(req, res, next){
   var id     = req.params.ytid;
   var title  = req.query.title || id;
   var isDownload = req.query.dl;
+  var isConvert = req.query.mp3convert;
 
   if(!id){
     return res.status(400).json({error: "Missing param ytid"});
@@ -23,8 +24,13 @@ module.exports = function(req, res, next){
   stream.on('info', function(info){
     //res.setHeader('Content-Length', info.size);
     try{
+      if(isConvert){
+	convert(res, stream);      
+      }else{
+	stream.pipe(res);
+      }
       stream.pipe(res);
-      //convert(res, stream);      
+      convert(res, stream);      
     }catch(err){
       return res.status(500).send(err);
     }
