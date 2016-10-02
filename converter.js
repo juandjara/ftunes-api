@@ -25,12 +25,10 @@ module.exports = function(req, res, next){
     //res.setHeader('Content-Length', info.size);
     try{
       if(isConvert){
-	convert(res, stream);      
+	      convert(res, stream);      
       }else{
-	stream.pipe(res);
+	      stream.pipe(res);
       }
-      stream.pipe(res);
-      convert(res, stream);      
     }catch(err){
       return res.status(500).send(err);
     }
