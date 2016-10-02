@@ -63,7 +63,7 @@
 	      var convert = document.getElementById("convert").checked || "";
         var target  = document.getElementById("target");
 
-        var url    = "/api/dl/"+ytid+"?mp3convert="+convert;
+        var url    = "/api/stream/"+ytid+"?mp3convert="+convert;
         target.src = url;
         target.hidden = false;
         target.play();
