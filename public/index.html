@@ -48,10 +48,6 @@
       <label for="ytid">id de Youtube</label>
       <input class="full-w" type="text" id="ytid"></input>
     </div>
-    <div>
-      <input type="checkbox" id="convert"/>
-      <label for="convert">Convertir a mp3?</label>
-    </div>
     <br>
     <div class="layout">
       <button onclick="dl()" class="big-btn">Play!</button>
@@ -60,10 +56,9 @@
     <script type="text/javascript">
       function dl(){
         var ytid    = document.getElementById("ytid").value;
-	      var convert = document.getElementById("convert").checked || "";
         var target  = document.getElementById("target");
 
-        var url    = "/api/stream/"+ytid+"?mp3convert="+convert;
+        var url    = "/api/stream/"+ytid;
         target.src = url;
         target.hidden = false;
         target.play();
