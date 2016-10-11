@@ -20,7 +20,7 @@ module.exports = function(req, res, next){
   res.setHeader('Content-type', 'audio/mpeg');
 
   try{
-    convert(stream, video).pipe(res);      
+    convert(stream, video).pipe(res);
   }catch(err){
     return res.status(500).send(err);
   }
@@ -44,7 +44,7 @@ module.exports = function(req, res, next){
     });
     proc.on('error', function(err){
       video.end();
-      stream.emit("error", err);
+      stream.emit("error", err.message);
     });
 
     return stream;
