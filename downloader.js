@@ -42,9 +42,9 @@ module.exports = function(req, res, next){
       console.log('finished FFmpeg proccess for file '+title+'.mp3 from url '+url);
       console.log('FFmpeg proccess took '+time.toFixed(3)+' seconds');
     });
-    proc.on('error', function(){
+    proc.on('error', function(err){
       video.end();
-      stream.emit("error");
+      stream.emit("error", err);
     });
 
     return stream;
