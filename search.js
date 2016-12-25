@@ -4,12 +4,16 @@ module.exports = function(req, res){
   var env     = require("./env");
   var query   = req.query.q;
   var rpp     = req.query.rpp || 5;
+  var nextPageToken = req.query.nextPageToken;
 
   if(!query){
     return res.status(400).json({error: "Query param (q) is missing"});
   }
 
   yt.setKey(env.youtube);
+  if(nextPageToken) {
+    yt.addParam('nextPageToken', nextPageToken);
+  }
   yt.search(query, rpp, function(err, results){
     if(err){
       console.error(err.error);
@@ -21,7 +25,8 @@ module.exports = function(req, res){
         return {
           id: elem.id.videoId,
           etag: elem.etag,
-          data: elem.snippet
+          data: elem.snippet,
+          nextPageToken: elem.nextPageToken
         };
       }));
     }catch(err){
