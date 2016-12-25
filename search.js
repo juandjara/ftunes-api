@@ -12,7 +12,7 @@ module.exports = function(req, res){
 
   yt.setKey(env.youtube);
   if(nextPageToken) {
-    yt.addParam('nextPageToken', nextPageToken);
+    yt.addParam('pageToken', nextPageToken);
   }
   yt.search(query, rpp, function(err, results){
     if(err){
@@ -21,14 +21,17 @@ module.exports = function(req, res){
     }
 
     try{
-      res.json(results.items.map(function(elem){
+      var mappedResults = results.items.map(function(elem){
         return {
           id: elem.id.videoId,
           etag: elem.etag,
           data: elem.snippet,
-          nextPageToken: elem.nextPageToken
         };
-      }));
+      });
+      return res.json({
+        results: mappedResults,
+        nextPageToken: results.nextPageToken
+      });
     }catch(err){
       res.status(500).json({error: "error parsing youtube api"});
     }
