@@ -16,7 +16,7 @@ module.exports = function(req, res){
   }
   yt.search(query, rpp, function(err, results){
     if(err){
-      console.error(err.error);
+      console.error("youtube search error: ", err);
       return res.status(500).send(err);
     }
 
