@@ -8,24 +8,28 @@ const makeUrl = (url, params) => {
 }
 exports.makeUrl = makeUrl;
 
-const getAuthRedirect = () => {
+const getAuthRedirect = (req) => {
+  const proto = req.protocol
+  const host = req.get('host')
   const auth_base_url = 'https://accounts.spotify.com/authorize'
   const auth_params = {
     response_type: 'code',
     client_id: process.env.CLIENT_ID,
-    redirect_uri: 'http://localhost:3000/spotify_callback',
+    redirect_uri: `${proto}://${host}/spotify_callback`,
     scope: 'playlist-read-private'
   }
   return makeUrl(auth_base_url, auth_params);
 }
 exports.getAuthRedirect = getAuthRedirect;
 
-const getTokens = code => {
+const getTokens = (req, code) => {
+  const proto = req.protocol
+  const host = req.get('host')
   const token_url = 'https://accounts.spotify.com/api/token'
   const params = {
     code,
     grant_type: 'authorization_code',
-    redirect_uri: 'http://localhost:3000/spotify_callback',
+    redirect_uri: `${proto}://${host}/spotify_callback`,
   }
   const client_id = process.env.CLIENT_ID;
   const client_secret = process.env.CLIENT_SECRET;

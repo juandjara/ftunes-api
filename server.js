@@ -23,20 +23,26 @@ app.get('/dl/:ytid', downloader);
 app.get('/stream/:ytid', streamer);
 app.get('/search', search);
 app.get('/spotify_redirect', (req, res) => {
-  const url = spotify.getAuthRedirect();
+  const url = spotify.getAuthRedirect(req);
   res.redirect(url);
 })
 app.get('/spotify_callback', (req, res) => {
   const code = req.query.code;
-  spotify.getTokens(code)
+  spotify.getTokens(req, code)
   .then(({data}) => {
-    const web_url = spotify.makeUrl(process.env.FRONTEND, data)
-    res.redirect(web_url);
+    const url = `${process.env.FRONTEND}/callback`
+    const redirection = spotify.makeUrl(url, data)
+    res.redirect(redirection);
   })
   .catch(err => {
     console.log(err);
     res.status(500).send();
   })
+})
+app.get('/domain', (req, res) => {
+  const proto = req.protocol
+  const host = req.get('host')
+  res.json({host, proto})
 })
 
 var server = app.listen(process.env.PORT || 3000, function () {
