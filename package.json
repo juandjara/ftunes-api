@@ -1,7 +1,7 @@
 {
-  "name": "ytdl-tomp3",
-  "version": "0.2.0",
-  "description": "api para bajarse musica. toma 2",
+  "name": "ftunes-api",
+  "version": "0.3.0",
+  "description": "servicio para escuchar y descargar musica desde yt",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
