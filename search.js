@@ -1,7 +1,6 @@
 module.exports = function(req, res){
   var YouTube = require("youtube-node");
   var yt      = new YouTube();
-  var env     = require("./env");
   var query   = req.query.q;
   var rpp     = req.query.rpp || 5;
   var nextPageToken = req.query.nextPageToken;
@@ -10,7 +9,7 @@ module.exports = function(req, res){
     return res.status(400).json({error: "Query param (q) is missing"});
   }
 
-  yt.setKey(env.youtube);
+  yt.setKey(process.env.GOOGLE_API_KEY);
   if(nextPageToken) {
     yt.addParam('pageToken', nextPageToken);
   }
