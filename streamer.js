@@ -11,7 +11,10 @@ module.exports = function(req, res, next){
     filter: "audioonly"
   });
 
-  video.on('error', err => res.status(500).send(err))
+  video.on('error', err => {
+    console.error(err);
+    res.status(500).send("Video Stream Error")
+  })
   video.on('response', function(data){
     var length = parseInt(data.headers["content-length"]);
     res.sendSeekable(video, {
