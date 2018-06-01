@@ -6,6 +6,7 @@ var streamer   = require('./streamer');
 var search     = require('./search');
 var sendSeekable = require('send-seekable');
 var spotify = require('./spotify');
+var byid = require('./byid');
 require('dotenv').config()
 
 app.set('json spaces', 2);
@@ -22,6 +23,8 @@ app.get('/', function(req, res){
 app.get('/dl/:ytid', downloader);
 app.get('/stream/:ytid', streamer);
 app.get('/search', search);
+app.get('/song/:id', byid);
+
 app.get('/spotify_redirect', (req, res) => {
   const url = spotify.getAuthRedirect(req);
   res.redirect(url);
