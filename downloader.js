@@ -16,7 +16,7 @@ module.exports = function(req, res, next){
   });
   var stream = through();
 
-  res.setHeader('Content-disposition', 'attachment; filename='+title+'.mp3');  
+  res.setHeader('Content-disposition', 'attachment; filename="'+title+'.mp3"');  
   res.setHeader('Content-type', 'audio/mpeg');
 
   try{
