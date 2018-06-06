@@ -1,11 +1,11 @@
-var YouTube = require("youtube-node");
-var yt = new YouTube();
-
+const YouTube = require("youtube-node");
+const yt = new YouTube();
 
 module.exports = function(req, res){
-  var query   = req.query.q;
-  var rpp     = req.query.rpp || 5;
-  var nextPageToken = req.query.nextPageToken;
+  const query = req.query.q;
+  const rpp = req.query.rpp || 5;
+  const nextPageToken = req.query.nextPageToken;
+  const type = req.query.type || 'video';
 
   if(!query){
     return res.status(400).json({error: "Query param (q) is missing"});
@@ -20,14 +20,14 @@ module.exports = function(req, res){
     }
 
     try{
-      var mappedResults = results.items.map(function(elem){
-        return {
-          id: elem.id.videoId,
-          ...elem.snippet,
-        };
-      });
+      var parsedResults = results.items
+      .filter(elem => elem.id.kind.indexOf(type) !== -1)
+      .map(elem => ({
+        id: elem.id.videoId,
+        ...elem.snippet,
+      }));
       res.json({
-        results: mappedResults,
+        results: parsedResults,
         nextPageToken: results.nextPageToken
       });
     } catch(err) {

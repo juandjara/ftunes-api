@@ -1,6 +1,7 @@
+var YouTube = require("youtube-node");
+var yt = new YouTube();
+
 module.exports = function(req, res){
-  var YouTube = require("youtube-node");
-  var yt = new YouTube();
   var id = req.params.id;
 
   if(!id){
