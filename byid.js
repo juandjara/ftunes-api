@@ -11,7 +11,8 @@ module.exports = function(req, res){
   yt.getById(id, function(err, result){
     if(err){
       console.error("youtube getById error: ", err);
-      return res.status(500).send(err);
+      res.status(500).send(err);
+      return;
     }
 
     try{
