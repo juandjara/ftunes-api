@@ -6,6 +6,7 @@ var streamer   = require('./streamer');
 var search     = require('./search');
 var sendSeekable = require('send-seekable');
 var byid = require('./byid');
+var axios = require('axios')
 require('dotenv').config()
 
 app.set('json spaces', 2);
@@ -28,6 +29,19 @@ app.get('/domain', (req, res) => {
   const proto = req.protocol
   const host = req.get('host')
   res.json({host, proto})
+})
+
+app.get('/autocomplete', (req, res) => {
+  const url = 'https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q='+req.query.q;
+  axios({
+    url,
+    method: 'get',
+    responseType: 'stream'
+  }).then(completionRes => {
+    completionRes.data.pipe(res)
+  }).catch(err => {
+    res.status(500).json(err)
+  })
 })
 
 var server = app.listen(process.env.PORT || 3000, function () {
