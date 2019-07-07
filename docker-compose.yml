@@ -1,7 +1,8 @@
 version: "3"
 services:
   api:
-    container-name: ftunes-api
+    build: .
+    container_name: ftunes-api
     labels:
       - traefik.frontend.rule=Host:ftunes-api.fuken.xyz
       - traefik.port=3000
