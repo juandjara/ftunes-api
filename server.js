@@ -5,7 +5,6 @@ var downloader = require('./downloader');
 var streamer   = require('./streamer');
 var search     = require('./search');
 var sendSeekable = require('send-seekable');
-var spotify = require('./spotify');
 var byid = require('./byid');
 require('dotenv').config()
 
@@ -25,23 +24,6 @@ app.get('/stream/:ytid', streamer);
 app.get('/search', search);
 app.get('/song/:id', byid);
 
-app.get('/spotify_redirect', (req, res) => {
-  const url = spotify.getAuthRedirect(req);
-  res.redirect(url);
-})
-app.get('/spotify_callback', (req, res) => {
-  const code = req.query.code;
-  spotify.getTokens(req, code)
-  .then(({data}) => {
-    const url = `${process.env.FRONTEND}/callback`
-    const redirection = spotify.makeUrl(url, data)
-    res.redirect(redirection);
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).send();
-  })
-})
 app.get('/domain', (req, res) => {
   const proto = req.protocol
   const host = req.get('host')
