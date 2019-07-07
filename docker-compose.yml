@@ -3,9 +3,17 @@ services:
   api:
     build: .
     container_name: ftunes-api
+    networks:
+      - web
+    ports:
+      - "3000:3000"
     labels:
       - traefik.frontend.rule=Host:ftunes-api.fuken.xyz
       - traefik.port=3000
     env_file:
       - .env
     restart: always
+
+networks: 
+  web:
+    external: true
