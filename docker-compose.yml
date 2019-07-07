@@ -1,0 +1,10 @@
+version: "3"
+services:
+  api:
+    container-name: ftunes-api
+    labels:
+      - traefik.frontend.rule=Host:ftunes-api.fuken.xyz
+      - traefik.port=3000
+    env_file:
+      - .env
+    restart: always
