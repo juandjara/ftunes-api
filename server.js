@@ -8,6 +8,7 @@ const search     = require('./routes/search');
 const sendSeekable = require('send-seekable');
 const axios = require('axios')
 const config = require('./config')
+const pkg = require('./package.json')
 require('dotenv').config()
 
 app.set('json spaces', 2);
@@ -16,9 +17,9 @@ app.use(sendSeekable);
 
 app.get('/', function(req, res){
   res.json({
-    status: 'ok',
-    description: 'convertir musica de yt a mp3',
-    sample:'/dl/:yt_video_id/:titulo_de_la_descarga'
+    name: pkg.name,
+    description: pkg.description,
+    version: pkg.version
   });
 });
 app.get('/dl/:ytid', downloader);
