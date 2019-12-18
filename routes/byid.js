@@ -1,9 +1,8 @@
-var YouTube = require("youtube-node");
-var yt = new YouTube();
+const YouTube = require("youtube-node");
+const yt = new YouTube();
 
 module.exports = function songById(req, res) {
-  var id = req.params.id;
-
+  const id = req.params.id;
   if (!id) {
     return res.status(400).json({error: "id is missing"});
   }

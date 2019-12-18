@@ -2,7 +2,6 @@ const ytdl = require('ytdl-core');
 
 module.exports = function streamer(req, res) {
   const id = req.params.ytid;
-
   if (!id) {
     return res.status(400).json({error: "Missing param ytid"});
   }

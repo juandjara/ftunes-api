@@ -1,4 +1,4 @@
-const config = require('./config')
+const config = require('../config')
 const YouTube = require("youtube-node");
 const yt = new YouTube();
 
