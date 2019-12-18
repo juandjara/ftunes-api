@@ -1,3 +1,4 @@
+const config = require('./config')
 const YouTube = require("youtube-node");
 const yt = new YouTube();
 
@@ -11,7 +12,7 @@ module.exports = function(req, res){
     return res.status(400).json({error: "Query param (q) is missing"});
   }
 
-  yt.setKey(process.env.GOOGLE_API_KEY);  
+  yt.setKey(config.apiKey)
   yt.search(query, rpp, {pageToken: nextPageToken}, function(err, results){
     if(err){
       console.error("youtube search error: ", err);
@@ -19,7 +20,7 @@ module.exports = function(req, res){
       return;
     }
 
-    try{
+    try {
       var parsedResults = results.items
       .filter(elem => elem.id.kind.indexOf(type) !== -1)
       .map(elem => ({
