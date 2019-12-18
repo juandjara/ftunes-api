@@ -2,7 +2,7 @@ const config = require('./config')
 const YouTube = require("youtube-node");
 const yt = new YouTube();
 
-module.exports = function(req, res){
+module.exports = function search(req, res) {
   const query = req.query.q;
   const rpp = req.query.rpp || 5;
   const nextPageToken = req.query.nextPageToken;

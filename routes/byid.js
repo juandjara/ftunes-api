@@ -1,22 +1,22 @@
 var YouTube = require("youtube-node");
 var yt = new YouTube();
 
-module.exports = function(req, res){
+module.exports = function songById(req, res) {
   var id = req.params.id;
 
-  if(!id){
+  if (!id) {
     return res.status(400).json({error: "id is missing"});
   }
 
   yt.setKey(process.env.GOOGLE_API_KEY);
   yt.getById(id, function(err, result){
-    if(err){
+    if (err) {
       console.error("youtube getById error: ", err);
       res.status(500).send(err);
       return;
     }
 
-    try{
+    try {
       const item = result.items[0];
       res.json({
         id: item.id,

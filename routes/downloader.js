@@ -2,7 +2,7 @@ const ytdl    = require('ytdl-core');
 const ffmpeg  = require('fluent-ffmpeg');
 const through = require('through2');
 
-module.exports = function download (req, res) {
+module.exports = function download(req, res) {
   const id    = req.params.ytid;
   const title = req.query.title || id;
   const url = `https://youtube.com/watch?v=${id}`

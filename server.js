@@ -1,11 +1,11 @@
 const express = require('express');
 const app     = express();
 const cors    = require('cors');
-const downloader = require('./downloader');
-const streamer   = require('./streamer');
-const search     = require('./search');
+const byid    = require('./routes/byid');
+const downloader = require('./routes/downloader');
+const streamer   = require('./routes/streamer');
+const search     = require('./routes/search');
 const sendSeekable = require('send-seekable');
-const byid  = require('./byid');
 const axios = require('axios')
 const config = require('./config')
 require('dotenv').config()
