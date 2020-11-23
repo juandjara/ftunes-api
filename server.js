@@ -1,7 +1,6 @@
 const express = require('express');
 const app     = express();
 const cors    = require('cors');
-const byid    = require('./routes/byid');
 const downloader = require('./routes/downloader');
 const streamer   = require('./routes/streamer');
 const search     = require('./routes/search');
@@ -25,7 +24,6 @@ app.get('/', function(req, res){
 app.get('/dl/:ytid', downloader);
 app.get('/stream/:ytid', streamer);
 app.get('/search', search);
-app.get('/song/:id', byid);
 
 app.get('/domain', (req, res) => {
   const proto = req.protocol
