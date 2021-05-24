@@ -5,7 +5,7 @@ const through = require('through2');
 module.exports = function download(req, res) {
   const id    = req.params.ytid;
   const title = req.query.title || id;
-  const url = `https://youtube.com/watch?v=${id}`
+  const url = `https://youtube.com/watch?v=${id}&html5=1&pbj=1`
   const log = `${title}.mp3 from url ${url}`
 
   if (!id) {
@@ -23,6 +23,8 @@ module.exports = function download(req, res) {
   } catch(err) {
     return res.status(500).send(err);
   }
+
+  stream.on('error', err => res.status(500).send(err))
 }
 
 function convert(stream, video, log){
