@@ -29,9 +29,9 @@
     "qs": "^6.9.4",
     "send-seekable": "^1.0.3",
     "through2": "^2.0.5",
-    "ytdl-core": "^4.8.0"
+    "ytdl-core": "^4.11.2"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "nodemon": "^2.0.20"
   }
 }

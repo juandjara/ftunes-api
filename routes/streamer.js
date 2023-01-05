@@ -1,23 +1,18 @@
-const ytdl = require('ytdl-core');
+const { default: axios } = require('axios')
+const getAudioStreamDef = require('../utils/getAudioStreamDef')
 
-module.exports = function streamer(req, res) {
+module.exports = async function streamer(req, res) {
   const id = req.params.ytid;
-  if (!id) {
-    return res.status(400).json({error: "Missing param ytid"});
-  }
-
-  const url = "https://youtube.com/watch?v="+id;
-  const video = ytdl(url, { filter: "audioonly" });
-
-  video.on('error', err => {
-    console.error(err);
-    res.status(500).send("Video Stream Error")
+  const streamDef = await getAudioStreamDef(id, 'audio/webm')
+  const response = await axios.get(streamDef.url, { responseType: 'stream' })
+  const axiosStream = response.data
+  axiosStream.on('error', (err) => {
+    console.error('error streaming youtube response data', err)
+    res.status(500).json({ error: err })
   })
-  video.on('response', function(data){
-    const length = parseInt(data.headers["content-length"]);
-    res.sendSeekable(video, {
-      type: "audio/webm",
-      length: length
-    });
-  });
+
+  res.sendSeekable(axiosStream, {
+    type: 'audio/webm',
+    length: Number(streamDef.clen)
+  })
 }
