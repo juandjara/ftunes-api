@@ -1,18 +1,16 @@
 version: "3"
 services:
-  api:
+  ftunes_api:
     build: .
-    container_name: ftunes-api
+    container_name: ftunes_api
     networks:
       - web
-    ports:
-      - "3000:3000"
-    labels:
-      - traefik.frontend.rule=Host:ftunes-api.fuken.xyz
-      - traefik.port=3000
     env_file:
       - .env
     restart: always
+    labels:
+      caddy: http://fta.djara.dev
+      caddy.reverse_proxy: "{{upstreams 3000}}"
 
 networks: 
   web:
