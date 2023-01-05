@@ -10,4 +10,7 @@ COPY package*.json /home/node/app/
 RUN npm ci
 
 COPY . /home/node/app
+
+EXPOSE 3000
+
 CMD [ "npm", "start" ]

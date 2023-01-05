@@ -1,55 +1,63 @@
-const ytdl    = require('ytdl-core');
 const ffmpeg  = require('fluent-ffmpeg');
 const through = require('through2');
+const { default: axios } = require('axios');
+const getAudioStreamDef = require('../utils/getAudioStreamDef')
 
-module.exports = function download(req, res) {
-  const id    = req.params.ytid;
-  const title = req.query.title || id;
-  const url = `https://youtube.com/watch?v=${id}&html5=1&pbj=1`
-  const log = `${title}.mp3 from url ${url}`
-
-  if (!id) {
-    return res.status(400).json({error: "Missing param ytid"});
-  }
-
-  const stream = through();
-  const video = ytdl(url, { filter: "audioonly" });
-
-  res.setHeader('Content-disposition', `attachment; filename="${title}.mp3"`);
-  res.setHeader('Content-type', 'audio/mpeg');
-
+module.exports = async function download(req, res) {
   try {
-    convert(stream, video, log).pipe(res);
-  } catch(err) {
-    return res.status(500).send(err);
+    const id = req.params.ytid
+    const streamDef = await getAudioStreamDef(id, 'audio/webm')
+    await downloadAudio(streamDef, res)
+  } catch (err) {
+    console.error('generic error', err)
+    res.status(500).json({ error: err })
   }
-
-  stream.on('error', err => res.status(500).send(err))
 }
 
-function convert(stream, video, log){
-  const proc = new ffmpeg({source: video});
+async function downloadAudio(streamDef, res) {
+  const response = await axios.get(streamDef.url, { responseType: 'stream' })
+  const axiosStream = response.data
+  axiosStream.on('error', (err) => {
+    console.error('error streaming youtube response data', err)
+    res.status(500).json({ error: err })
+  })
+
+  const ffmpegStream = convertToMP3(axiosStream, streamDef.title)
+  ffmpegStream.on('error', (err) => {
+    console.error('error converting youtube stream to MP3 with FFmpeg', err)
+    res.status(500).json({ error: err })
+  })
+
+  res.setHeader('Content-disposition', `attachment; filename="${streamDef.title}.mp3"`);
+  res.setHeader('Content-type', 'audio/mpeg');
+  ffmpegStream.pipe(res)
+}
+
+function convertToMP3(inputStream, title) {
+  const initTime = Date.now(); 
+  const outputStream = through();
+  const proc = new ffmpeg({source: inputStream});
+
   proc
     .withAudioCodec('libmp3lame')
     .toFormat('mp3')
-    .pipe(stream);
-
-  let initTime = Date.now(); 
+    .pipe(outputStream);
 
   proc.on('start', function () {
-    console.log(`Starting FFmpeg proccess for file ${log}`);
+    console.log(`FFmpeg proccess started for ${title}`);
   });
+
   proc.on('end', function () {
     const endTime = Date.now();
     const time = (endTime - initTime) / 1000;
-    console.log(`FFmpeg proccess finished for file ${log}`);
-    console.log('FFmpeg proccess took '+time.toFixed(3)+' seconds');
-  });
-  proc.on('error', function (err) {
-    console.error('FFmpeg error', err);
-    video.end();
-    stream.emit("error", err.message);
+    console.log(`FFmpeg proccess finished for ${title}`);
+    console.log(`FFmpeg proccess took ${time.toFixed(3)} seconds`);
   });
 
-  return stream;
+  proc.on('error', function (err) {
+    inputStream.end();
+    outputStream.emit("error", err);
+  });
+
+  return outputStream;
 }
