@@ -30,6 +30,7 @@ async function downloadAudio(streamDef, res) {
 
   res.setHeader('Content-disposition', `attachment; filename="${streamDef.title}.mp3"`);
   res.setHeader('Content-type', 'audio/mpeg');
+  res.setHeader('Content-Length', streamDef.clen);
   ffmpegStream.pipe(res)
 }
 
