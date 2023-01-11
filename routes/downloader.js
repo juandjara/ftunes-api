@@ -1,6 +1,6 @@
 const ffmpeg  = require('fluent-ffmpeg');
 const through = require('through2');
-const { default: axios } = require('axios');
+const { default: axios, default: Axios } = require('axios');
 const getAudioStreamDef = require('../utils/getAudioStreamDef')
 
 module.exports = async function download(req, res) {
@@ -10,7 +10,7 @@ module.exports = async function download(req, res) {
     await downloadAudio(streamDef, res)
   } catch (err) {
     console.error('generic error', err)
-    res.status(500).json({ error: err })
+    res.status(500).json({ error: err.response ? err.response : err.message })
   }
 }
 
