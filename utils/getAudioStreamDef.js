@@ -1,6 +1,6 @@
 const { default: axios } = require('axios')
 
-const BASE_URL = 'https://invidious.weblibre.org/api/v1/videos'
+const BASE_URL = 'https://invidious.epicsite.xyz/api/v1/videos'
 module.exports = async function getAudioStreamDef(videoId, type) {
   const url = `${BASE_URL}/${videoId}`
   const resp = await axios.get(url)
